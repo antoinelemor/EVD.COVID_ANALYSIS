@@ -37,6 +37,20 @@ Mixtral 7x8b must be installed to use these scripts:
    ```shell
    ollama run mixtral:8x7b-instruct-v0.1-q5_K_M
 
+## Installing Dependencies
+
+To install all required dependencies for this project, run the following command in the terminal:
+
+   ```shell
+   pip install -r requirements.txt
+
+
+# EVD.COVID_ANALYSIS Repository
+
+## Overview
+Ce répertoire de travail est dédié à l'analyse de données textuelles liées à la COVID-19 au Québec et en Suède, en utilisant des techniques de traitement du langage naturel et le LLM Mixtral 7x8b. Les données pour cette analyse (conférences de presse pendant la pandémie au Québec et en Suède) proviennent de mes autres dépôts: [Conférences de presse sur la COVID-19 en Suède](https://github.com/antoinelemor/SWD.COVID.CONF) et [au Québec](https://github.com/antoinelemor/QC.Uncertainty_COVID).
+
+
 ## 📁 Scripts
 
 ### Script 1 : Traitement de texte et filtrage linguistique
