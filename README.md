@@ -28,18 +28,22 @@ Mixtral 7x8b must be installed to use these scripts:
    ```shell
    python -m venv env
    source env/bin/activate 
+   ```
 
 2. **Installing Ollama:**
    ```shell
    pip install Ollama
+   ```
    
 3. **Running the Mixtral Model:**
    ```shell
    ollama run mixtral:8x7b-instruct-v0.1-q5_K_M
+   ```
 
 ## Installing Dependencies
    ```shell 
-   pip install -r requirements.txt ```
+   pip install -r requirements.txt 
+   ```
 
 # EVD.COVID_ANALYSIS Repository
 
@@ -72,13 +76,16 @@ Mixtral 7x8b doit être installé pour utiliser ces scripts :
    ```shell
    python -m venv env
    source env/bin/activate 
+   ```
 
 2. **Installation d'Ollama :**
    ```shell
    pip install Ollama
+   ```
    
 3. **Installation de Mixtral 8x7b :**
    ```shell
    ollama run mixtral:8x7b-instruct-v0.1-q5_K_M
+   ```
 
    
