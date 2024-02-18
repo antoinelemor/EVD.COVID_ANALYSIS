@@ -46,13 +46,14 @@ Pour utiliser le modèle LLM Mixtral 7x8b dans ces scripts, suivez ces étapes :
 1. **Création d'un environnement virtuel avec Python :**
    ```shell
    python -m venv env
-   source env/bin/activate```
+   source env/bin/activate
 
 2. **Installation d'Ollama :**
    ```shell
-   pip install Ollama```
+   pip install Ollama
    
 3. **Installation d'Ollama :**
    ```shell
-   ollama run mixtral:8x7b-instruct-v0.1-q5_K_M```   
+   ollama run mixtral:8x7b-instruct-v0.1-q5_K_M
+
    
