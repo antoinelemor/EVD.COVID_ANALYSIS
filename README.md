@@ -1,7 +1,7 @@
 # EVD.COVID_ANALYSIS Repository
 
 ## Overview
-This repository is dedicated to the analysis of text data related to COVID-19 in Quebec and Sweden, utilizing natural language processing techniques and Mixtral 7x8b LLM. The data for this analysis (press conferences during the pandemic in Quebec and Sweden) is sourced from my other repositories: [Swedish COVID-19 Press Conferences](https://github.com/antoinelemor/SWD.COVID.CONF) and [Quebec COVID-19 Uncertainty](https://github.com/antoinelemor/QC.Uncertainty_COVID).
+This working repository is dedicated to the analysis of text data related to COVID-19 in Quebec and Sweden, utilizing natural language processing techniques and Mixtral 7x8b LLM. The data for this analysis (press conferences during the pandemic in Quebec and Sweden) is sourced from my other repositories: [Swedish COVID-19 Press Conferences](https://github.com/antoinelemor/SWD.COVID.CONF) and [Quebec COVID-19 Uncertainty](https://github.com/antoinelemor/QC.Uncertainty_COVID).
 
 ## 📁 Scripts
 
