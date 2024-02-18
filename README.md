@@ -20,7 +20,22 @@ This repository is dedicated to the analysis of text data related to COVID-19 in
 - **Libraries Used:** pandas, os, re, llama_index.llms.ollama, transformers, unidecode.
 - **Process:** Processes each line of text with specific prompts for annotations, such as evidence detection, source identification, and more, using Ollama and llama_index with Mixtral model and saves the annotated data to a CSV file.
 
+## Environment Configuration for the LLM Mixtral 7x8b Model
 
+Mixtral 7x8b must be installed to use these scripts:
+
+1. **Creating a virtual environment with Python:**
+   ```shell
+   python -m venv env
+   source env/bin/activate 
+
+2. **Installing Ollama:**
+   ```shell
+   pip install Ollama
+   
+3. **Running the Mixtral Model:**
+   ```shell
+   ollama run mixtral:8x7b-instruct-v0.1-q5_K_M
 
 ## 📁 Scripts
 
@@ -41,18 +56,18 @@ This repository is dedicated to the analysis of text data related to COVID-19 in
 
 ## Configuration de l'environnement pour le modèle LLM Mixtral 7x8b
 
-Pour utiliser le modèle LLM Mixtral 7x8b dans ces scripts, suivez ces étapes :
+Mixtral 7x8b doit être installé pour utiliser ces scripts :
 
 1. **Création d'un environnement virtuel avec Python :**
    ```shell
    python -m venv env
-   source env/bin/activate
+   source env/bin/activate 
 
 2. **Installation d'Ollama :**
    ```shell
    pip install Ollama
    
-3. **Installation d'Ollama :**
+3. **Installation de Mixtral 8x7b :**
    ```shell
    ollama run mixtral:8x7b-instruct-v0.1-q5_K_M
 
