@@ -34,6 +34,14 @@ new_df['detect_source_response'] = ''
 new_df['journalist_question_response'] = ''
 new_df['country_source'] = ''
 
+# Function to process additional instruction
+def process_additional_instruction(instruction, index, context):
+    base_prompt = "Tu es un annotateur de texte en français."
+    prompt = f"{base_prompt}\n{df.at[index, instruction]}\n{context}"
+    response = llm.complete(prompt).text
+    new_df.at[index, f'{instruction}_response'] = response
+    print(f"Date: {new_df.at[index, 'date']}, Sentence ID: {new_df.at[index, 'sentence_id']}, {instruction}: {response}")
+
 # Process each row in the DataFrame
 for index, row in new_df.iterrows():
     context = row['context']
@@ -50,20 +58,20 @@ for index, row in new_df.iterrows():
         new_df.at[index, f'{instruction}_response'] = response
         print(f"Date: {date}, Sentence ID: {sentence_id}, {instruction}: {response}")
 
+    # Additional instructions based on responses
+    if new_df.at[index, 'detect_evidence_response'] == 'oui':
+        # Execute 'type_of_evidence' only if 'detect_evidence' is 'oui'
+        process_additional_instruction('type_of_evidence', index, context)
+
     # Additional instructions if 'detect_evidence' is 'oui'
     if new_df.at[index, 'detect_evidence_response'] == 'oui' or new_df.at[index, 'detect_source_response'] == 'oui':
         base_prompt = "Tu es un annotateur de texte en français."
-        for instruction in ['type_of_evidence', 'source_of_evidence', 'associated_emotion', 'country_source']:
+        for instruction in ['source_of_evidence', 'associated_emotion', 'country_source', 'evidence_frame']:
             # Ne pas inclure 'evidence_frame' si la réponse vient de 'detect_source'
             if new_df.at[index, 'detect_source_response'] == 'oui' and instruction == 'evidence_frame':
                 continue
-            prompt = f"{base_prompt}\n{df.at[index, instruction]}\n{context}"
-            response = llm.complete(prompt).text
-            new_df.at[index, f'{instruction}_response'] = response
-            print(f"Date: {date}, Sentence ID: {sentence_id}, {instruction}: {response}")
+            process_additional_instruction(instruction, index, context)
 
 # Write the new DataFrame to a new CSV file
 new_df.to_csv(output_path, index=False)
-
-
 print("Processing complete. The new CSV file with individual responses has been saved.")

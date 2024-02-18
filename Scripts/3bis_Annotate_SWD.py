@@ -48,7 +48,7 @@ for index, row in new_df.iterrows():
 
     # Instructions supplémentaires si 'detect_evidence' ou 'detect_source' est 'oui'
     if new_df.at[index, 'detect_evidence_response'] == 'oui' or new_df.at[index, 'detect_source_response'] == 'oui':
-        for additional_instruction in ['source_of_evidence', 'associated_emotion', 'country_source']:
+        for additional_instruction in ['source_of_evidence', 'associated_emotion', 'country_source', 'evidence_frame']:
             prompt = f"Tu es un annotateur de texte en français.\n{df.at[index, additional_instruction]}\n{context}"
             full_response = llm.complete(prompt).text.strip().lower()
             full_response = unidecode(full_response)
@@ -58,6 +58,8 @@ for index, row in new_df.iterrows():
                 response = full_response
             elif additional_instruction == 'associated_emotion':
                 response = 'négatif' if re.search(r'\bneg', full_response) else 'positif' if re.search(r'\bposi', full_response) else 'neutre'
+            elif additional_instruction == 'evidence_frame':
+                response = 'suppression' if re.search(r'\bsuppressi|\bsupressi', full_response) else 'mitigation' if re.search(r'\bmitigat', full_response) else 'neutre' if re.search(r'\bneutr', full_response) else full_response
             elif additional_instruction == 'country_source':
                 response = 'oui' if 'oui' in full_response else 'non' if 'non' in full_response else 'NA' if 'na' in full_response else full_response
 
@@ -66,14 +68,6 @@ for index, row in new_df.iterrows():
 
     # Instructions supplémentaires si 'detect_evidence' est 'oui'
     if new_df.at[index, 'detect_evidence_response'] == 'oui':
-        # Traitement pour 'evidence_frame'
-        prompt = f"Tu es un annotateur de texte en français.\n{df.at[index, 'evidence_frame']}\n{context}"
-        full_response = llm.complete(prompt).text.strip().lower()
-        full_response = unidecode(full_response)
-        response = 'suppression' if re.search(r'\bsuppressi', full_response) else 'mitigation' if re.search(r'\bmitigat', full_response) else 'neutre' if re.search(r'\bneutr', full_response) else full_response
-        new_df.at[index, 'evidence_frame_response'] = response
-        print(f"Date: {date}, Sentence ID: {sentence_id}, evidence_frame: {response}")
-
         # Traitement pour 'type_of_evidence'
         prompt = f"Tu es un annotateur de texte en français.\n{df.at[index, 'type_of_evidence']}\n{context}"
         full_response = llm.complete(prompt).text.strip().lower()

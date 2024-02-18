@@ -38,12 +38,8 @@ Mixtral 7x8b must be installed to use these scripts:
    ollama run mixtral:8x7b-instruct-v0.1-q5_K_M
 
 ## Installing Dependencies
-
-To install all required dependencies for this project, run the following command in the terminal:
-
-   ```shell
-   pip install -r requirements.txt
-
+   ```shell 
+   pip install -r requirements.txt ```
 
 # EVD.COVID_ANALYSIS Repository
 
