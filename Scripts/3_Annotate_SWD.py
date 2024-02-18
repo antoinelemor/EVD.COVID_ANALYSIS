@@ -14,8 +14,8 @@ llm = Settings.llm
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Define the relative file paths
-data_path = os.path.join(script_dir, '..', 'Database', 'preprocessed_data', 'instructions_conf_texts.csv')
-output_path = os.path.join(script_dir, '..', 'Database', 'annotated_data', 'processed_conf_texts_with_new_responses_1.csv')
+data_path = os.path.join(script_dir, '..', 'Database', 'preprocessed_data', 'SWD.instructions_conf_texts.csv')
+output_path = os.path.join(script_dir, '..', 'Database', 'annotated_data', 'SWD.processed_conf_texts_with_new_responses_1.csv')
 
 # Initialize the tokenizer
 tokenizer = AutoTokenizer.from_pretrained("mistralai/Mixtral-8x7B-Instruct-v0.1")

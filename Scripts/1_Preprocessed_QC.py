@@ -61,7 +61,7 @@ new_df = pd.DataFrame(new_data)
 print(new_df.head())
 
 # Chemin relatif pour l'enregistrement du nouveau DataFrame
-output_path = os.path.join(script_dir, '..', 'Database', 'preprocessed_data', 'processed_conf_texts.csv')
+output_path = os.path.join(script_dir, '..', 'Database', 'preprocessed_data', 'QC.processed_conf_texts.csv')
 
 # Enregistrement du nouveau dataframe
 new_df.to_csv(output_path, index=False)
