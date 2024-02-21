@@ -25,7 +25,7 @@ df = pd.read_csv(data_path)
 new_df = df[['doc_ID', 'date', 'sentence_id', 'context']].copy()
 columns_to_add = ['detect_evidence_response', 'type_of_evidence_response', 'source_of_evidence_response',
                   'evidence_frame_response', 'associated_emotion_response', 'detect_source_response',
-                  'journalist_question_response', 'country_source']
+                  'journalist_question_response', 'country_source_response']
 for col in columns_to_add:
     new_df[col] = ''
 

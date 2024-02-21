@@ -45,7 +45,7 @@ def tokenize_and_context(text):
 df = pd.read_csv(csv_path)
 
 # Sélection aléatoire de 3 conférences de presse
-selected_confs = shuffle(df).head(3)
+selected_confs = shuffle(df).head(15)
 
 # Application des fonctions et création du nouveau dataframe
 new_data = []
