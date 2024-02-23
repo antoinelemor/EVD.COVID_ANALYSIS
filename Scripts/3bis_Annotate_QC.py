@@ -72,7 +72,7 @@ for index, row in new_df.iterrows():
         prompt = f"Tu es un annotateur de texte en français.\n{df.at[index, 'type_of_evidence']}\n{context}"
         full_response = llm.complete(prompt).text.strip().lower()
         full_response = unidecode(full_response)
-        response = 'sciences naturelles' if re.search(r'\bnatur', full_response) else 'sciences sociales' if re.search(r'\bsocial', full_response)  else full_response        
+        response = 'sciences naturelles' if re.search(r'\bnatur', full_response) else 'sciences sociales' if re.search(r'\bsocial', full_response) else 'NA' if 'na'  else full_response        
         new_df.at[index, 'type_of_evidence_response'] = response
         print(f"Date: {date}, Sentence ID: {sentence_id}, type_of_evidence: {response}")
 
