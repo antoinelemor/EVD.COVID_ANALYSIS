@@ -31,9 +31,10 @@ def process_csv_to_jsonl(csv_file_path, jsonl_file_path):
         jsonl_data.append(json_obj)
 
     # Exporter les données modifiées en format JSONL
-    with open(jsonl_file_path, 'w') as file:
+    with open(jsonl_file_path, 'w', encoding='utf-8') as file:
         for json_obj in jsonl_data:
-            file.write(json.dumps(json_obj) + '\n')
+            file.write(json.dumps(json_obj, ensure_ascii=False) + '\n')
+
 
 # Chemins relatifs pour les fichiers CSV
 csv_files = ["../EVD.COVID_ANALYSIS/Database/annotated_data/QC.processed_conf_texts_with_new_responses_2.csv",
