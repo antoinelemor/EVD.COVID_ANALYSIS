@@ -1,54 +1,40 @@
-# Project Title
+# EVD.COVID_ANALYSIS
 
 ## Overview
 
-This repository contains scripts and data for processing, training, and analyzing text data related to COVID-19 press conferences. The primary goal is to preprocess the data, train models, annotate sentences, and conduct data analysis to understand the policies and measures taken by different countries during the pandemic.
+This repository contains scripts and data for processing, training, and analyzing text data related to COVID-19 press conferences. The primary goal is to preprocess the data, train models, annotate sentences, and conduct data analysis to understand the policies and measures taken by different countries during the pandemic. The annotation methodology is based on the approach described in [Do et al. (2022)](https://journals.sagepub.com/doi/pdf/10.1177/00491241221134526?casa_token=je4hEAkbGj4AAAAA:DF8Co2J-JzFNMycjRfroCdfrLB0Qivqu3WM_U83eX2oW17eJ-mh2jxTD6ai-fKoz_wICW_OQg0qkYMs), which uses sequential transfer learning to annotate large-scale text data.
+
+The results of these analyses contribute to our understanding of how different frames and sources influence public perception and policy during the COVID-19 pandemic.
 
 ## Folder Structure
 
 ### 📂 Database
 
-This folder contains original and epidemiological data used in the project.
+This folder contains various subdirectories for different types of data used in the project:
 
 #### 📂 original_data
 
-- **`QC.conf_texts.csv`**:
-  - **Purpose**: Contains the original text data from Quebec press conferences.
-  - **Description**: This file includes the text of press conferences held in Quebec, used as a primary source for further preprocessing and analysis.
-
-- **`SWD.conf_texts.csv`**:
-  - **Purpose**: Contains the original text data from Swedish press conferences.
-  - **Description**: This file includes the text of press conferences held in Sweden, used as a primary source for further preprocessing and analysis.
+**Content**: Raw text data from Quebec and Sweden's COVID-19 press conferences.
 
 #### 📂 epidemiology
 
-- **`QC.COVID_data.xlsx`**:
-  - **Purpose**: Contains COVID-19 data for Quebec.
-  - **Description**: This file includes epidemiological data such as case counts, hospitalizations, and deaths in Quebec.
+**Content**: Epidemiological data for Quebec and Sweden, including COVID-19 cases, hospitalizations, vaccination data, and stringency index.
 
-- **`QC.IRPPstringency_data.csv`**:
-  - **Purpose**: Contains stringency data for Quebec.
-  - **Description**: This file includes data on the stringency of policies implemented in Quebec during the pandemic.
+#### 📂 preprocessed_data
 
-- **`QC.vax_data.csv`**:
-  - **Purpose**: Contains vaccination data for Quebec.
-  - **Description**: This file includes information on the vaccination rates in Quebec.
+**Content**: Preprocessed text data ready for annotation and analysis.
 
-- **`SWD.cases.csv`**:
-  - **Purpose**: Contains COVID-19 case data for Sweden.
-  - **Description**: This file includes the number of COVID-19 cases reported in Sweden.
+#### 📂 verification_annotation_data
 
-- **`SWD.hospitalizations.csv`**:
-  - **Purpose**: Contains hospitalization data for Sweden.
-  - **Description**: This file includes the number of COVID-19 hospitalizations in Sweden.
+**Content**: JSONL files containing the evaluation, test, and training data for both Quebec and Sweden.
 
-- **`SWD.stringency.csv`**:
-  - **Purpose**: Contains stringency data for Sweden.
-  - **Description**: This file includes data on the stringency of policies implemented in Sweden during the pandemic.
+#### 📂 training_data_per_label_per_country
 
-- **`SWD.vax.csv`**:
-  - **Purpose**: Contains vaccination data for Sweden.
-  - **Description**: This file includes information on the vaccination rates in Sweden.
+**Content**: Subdirectories for Quebec (QC) and Sweden (SWD) containing JSONL files for various labels used in model training.
+
+#### 📂 pred
+
+**Content**: Subdirectories for Quebec (perf_QC) and Sweden (perf_SE) containing performance logs (e.g., F1 scores) of the annotation models.
 
 ### 📂 Scripts
 
@@ -133,6 +119,20 @@ This subdirectory includes scripts for analyzing the processed and annotated dat
 - **`4.Robustness.R`**:
   - **Purpose**: Tests the robustness of the statistical models.
   - **Key Functions**: Validate and verify the reliability of models through robustness checks and sensitivity analyses.
+
+### 📂 Models
+
+This folder contains the trained models for each country and category. Note that these models are not included in the repository due to their size.
+
+### 📂 Results
+
+This folder contains all the results produced by the R scripts in the Data Analysis folder.
+
+## Annotation Performance Metrics
+
+### Annotation Metrics
+
+![Annotation Metrics](EVD.COVID_ANALYSIS/Results/annotation_metrics.png)
 
 ## How to Use
 
