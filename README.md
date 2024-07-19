@@ -32,7 +32,7 @@ The results of these analyses contribute to our understanding of how different f
 
 This folder contains various subdirectories for different types of data used in the project:
 
-#### 📂 original_data
+- #### 📂 original_data
 
 **Content**: Raw text data from Quebec and Sweden's COVID-19 press conferences.
 
