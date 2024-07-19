@@ -151,5 +151,5 @@ This folder contains all the results produced by the R scripts in the Data Analy
 ### Annotation Metrics
 
 <p align="center">
-  ![Annotation Metrics](/Results/annotation_metrics.png)
+  <img src="/Results/annotation_metrics.png" alt="Annotation Metrics">
 </p>
