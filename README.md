@@ -132,7 +132,7 @@ This folder contains all the results produced by the R scripts in the Data Analy
 
 ### Annotation Metrics
 
-![Annotation Metrics](EVD.COVID_ANALYSIS/Results/annotation_metrics.png)
+![Annotation Metrics](/Results/annotation_metrics.png)
 
 ## How to Use
 
