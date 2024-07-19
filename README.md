@@ -20,7 +20,7 @@ This repository contains scripts and data for processing, training, and analyzin
 The results of these analyses contribute to our understanding of how different frames and sources influence public perception and policy during the COVID-19 pandemic. This method is used in the following working paper: 
 
 <p align="center">
-  ![Annotation Metrics](/Results/abstract.png)
+  ![Abstract](/Results/abstract.png)
 </p>
 
 ## Folder Structure
