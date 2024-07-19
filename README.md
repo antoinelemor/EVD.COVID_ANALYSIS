@@ -1,91 +1,156 @@
-# EVD.COVID_ANALYSIS Repository
+# Project Title
 
 ## Overview
-This working repository is dedicated to the analysis of text data related to COVID-19 in Quebec and Sweden, utilizing natural language processing techniques and Mixtral 7x8b LLM. The data for this analysis (press conferences during the pandemic in Quebec and Sweden) is sourced from my other repositories: [Swedish COVID-19 Press Conferences](https://github.com/antoinelemor/SWD.COVID.CONF) and [Quebec COVID-19 Uncertainty](https://github.com/antoinelemor/QC.Uncertainty_COVID).
 
-## 📁 Scripts
+This repository contains scripts and data for processing, training, and analyzing text data related to COVID-19 press conferences. The primary goal is to preprocess the data, train models, annotate sentences, and conduct data analysis to understand the policies and measures taken by different countries during the pandemic.
 
-### Script 1: Text Processing and Language Filtering
-- **Functionality:** Processes textual data, removes English sentences from French texts, tokenizes sentences, and creates contextual data and sample data.
-- **Libraries Used:** pandas, os, spacy, langdetect.
-- **Process:** Reads data from a CSV file, processes it using spaCy for French text, and outputs the cleaned data to a new CSV file.
+## Folder Structure
 
-### Script 2: Adding Annotation Instructions
-- **Functionality:** Enhances preprocessed data with specific annotation instructions for various analysis tasks.
-- **Libraries Used:** pandas, os.
-- **Process:** Reads the preprocessed data, adds columns for different annotation tasks such as evidence detection, source identification, and emotional tone analysis, and saves the updated data to a CSV file.
+### 📂 Database
 
-### Script 3: Automated Text Annotation
-- **Functionality:** Uses a local LLM (Mixtral 7x8b) to annotate text based on the instructions provided in Script 2.
-- **Libraries Used:** pandas, os, re, llama_index.llms.ollama, transformers, unidecode.
-- **Process:** Processes each line of text with specific prompts for annotations, such as evidence detection, source identification, and more, using Ollama and llama_index with Mixtral model and saves the annotated data to a CSV file.
+This folder contains original and epidemiological data used in the project.
 
-## Environment Configuration for the LLM Mixtral 7x8b Model
+#### 📂 original_data
 
-Mixtral 7x8b must be installed to use these scripts:
+- **`QC.conf_texts.csv`**:
+  - **Purpose**: Contains the original text data from Quebec press conferences.
+  - **Description**: This file includes the text of press conferences held in Quebec, used as a primary source for further preprocessing and analysis.
 
-1. **Creating a virtual environment with Python:**
-   ```shell
-   python -m venv env
-   source env/bin/activate 
-   ```
+- **`SWD.conf_texts.csv`**:
+  - **Purpose**: Contains the original text data from Swedish press conferences.
+  - **Description**: This file includes the text of press conferences held in Sweden, used as a primary source for further preprocessing and analysis.
 
-2. **Installing Ollama:**
-   ```shell
-   pip install Ollama
-   ```
-   
-3. **Running the Mixtral Model:**
-   ```shell
-   ollama run mixtral:8x7b-instruct-v0.1-q5_K_M
-   ```
+#### 📂 epidemiology
 
-## Installing Dependencies
-   ```shell 
-   pip install -r requirements.txt 
-   ```
+- **`QC.COVID_data.xlsx`**:
+  - **Purpose**: Contains COVID-19 data for Quebec.
+  - **Description**: This file includes epidemiological data such as case counts, hospitalizations, and deaths in Quebec.
 
-# EVD.COVID_ANALYSIS Repository
+- **`QC.IRPPstringency_data.csv`**:
+  - **Purpose**: Contains stringency data for Quebec.
+  - **Description**: This file includes data on the stringency of policies implemented in Quebec during the pandemic.
 
-## Overview
-Ce répertoire de travail est dédié à l'analyse de données textuelles liées à la COVID-19 au Québec et en Suède, en utilisant des techniques de traitement du langage naturel et le LLM Mixtral 7x8b. Les données pour cette analyse (conférences de presse pendant la pandémie au Québec et en Suède) proviennent de mes autres dépôts: [Conférences de presse sur la COVID-19 en Suède](https://github.com/antoinelemor/SWD.COVID.CONF) et [au Québec](https://github.com/antoinelemor/QC.Uncertainty_COVID).
+- **`QC.vax_data.csv`**:
+  - **Purpose**: Contains vaccination data for Quebec.
+  - **Description**: This file includes information on the vaccination rates in Quebec.
 
+- **`SWD.cases.csv`**:
+  - **Purpose**: Contains COVID-19 case data for Sweden.
+  - **Description**: This file includes the number of COVID-19 cases reported in Sweden.
 
-## 📁 Scripts
+- **`SWD.hospitalizations.csv`**:
+  - **Purpose**: Contains hospitalization data for Sweden.
+  - **Description**: This file includes the number of COVID-19 hospitalizations in Sweden.
 
-### Script 1 : Traitement de texte et filtrage linguistique
-- **Fonctionnalité :** Traite les données textuelles, supprime les phrases anglaises des textes français, tokenize les phrases et crée des données contextuelles et des échantillons de données.
-- **Bibliothèques utilisées :** pandas, os, spacy, langdetect.
-- **Processus :** Lit les données à partir d'un fichier CSV, les traite en utilisant spaCy pour le texte français et produit les données nettoyées dans un nouveau fichier CSV.
+- **`SWD.stringency.csv`**:
+  - **Purpose**: Contains stringency data for Sweden.
+  - **Description**: This file includes data on the stringency of policies implemented in Sweden during the pandemic.
 
-### Script 2 : Ajout d'instructions d'annotation
-- **Fonctionnalité :** Améliore les données prétraitées avec des instructions d'annotation spécifiques pour diverses tâches d'analyse.
-- **Bibliothèques utilisées :** pandas, os.
-- **Processus :** Lit les données prétraitées, ajoute des colonnes pour différentes tâches d'annotation telles que la détection de preuves, l'identification de sources et l'analyse du ton émotionnel, et sauvegarde les données mises à jour dans un fichier CSV.
+- **`SWD.vax.csv`**:
+  - **Purpose**: Contains vaccination data for Sweden.
+  - **Description**: This file includes information on the vaccination rates in Sweden.
 
-### Script 3 : Annotation automatique de texte
-- **Fonctionnalité :** Utilise un LLM local (Mixtral 7x8b) pour annoter le texte selon les instructions fournies dans le Script 2.
-- **Bibliothèques utilisées :** pandas, os, re, llama_index.llms.ollama, transformers, unidecode.
-- **Processus :** Traite chaque ligne de texte avec des invites spécifiques pour les annotations, telles que la détection de preuves, l'identification de sources, et plus encore, en utilisant Ollama et llama_index avec le modèle Mixtral et enregistre les données annotées dans un fichier CSV.
+### 📂 Scripts
 
-## Configuration de l'environnement pour le modèle LLM Mixtral 7x8b
+This folder contains four subdirectories, each dedicated to a specific part of the project workflow:
 
-Mixtral 7x8b doit être installé pour utiliser ces scripts :
+#### 📂 1_Preprocessing
 
-1. **Création d'un environnement virtuel avec Python :**
-   ```shell
-   python -m venv env
-   source env/bin/activate 
-   ```
+This subdirectory includes scripts for preprocessing the text data, specifically for Quebec and Sweden.
 
-2. **Installation d'Ollama :**
-   ```shell
-   pip install Ollama
-   ```
-   
-3. **Installation de Mixtral 8x7b :**
-   ```shell
-   ollama run mixtral:8x7b-instruct-v0.1-q5_K_M
-   ```
+- **`1_Preprocessed_QC.py`**:
+  - **Purpose**: Preprocesses text data from Quebec by removing English sentences, tokenizing the text, and creating sentence contexts.
+  - **Key Functions**: Preprocess text data, remove unwanted sentences, and tokenize the text to create structured data ready for analysis.
 
-   
+- **`1_Preprocessed_SWD.py`**:
+  - **Purpose**: Similar to the Quebec preprocessing script, but for Swedish text data. It removes English sentences, tokenizes the text, and creates sentence contexts.
+  - **Key Functions**: Clean and structure Swedish text data by removing non-relevant sentences and tokenizing for analysis.
+
+- **`2_Sentences_to_annotate.py`**:
+  - **Purpose**: Calculates the number of sentences that need to be annotated for both Quebec and Sweden.
+  - **Key Functions**: Count and determine sample sizes of sentences for annotation based on statistical calculations.
+
+#### 📂 2_Feedback_Scripts
+
+This subdirectory includes scripts to process and prepare data for annotation feedback.
+
+- **`1_JSONL_Annotation.py`**:
+  - **Purpose**: Converts annotation data to JSONL format for processing.
+  - **Key Functions**: Transform annotation data into a format suitable for machine learning models.
+
+- **`2_Supplementary_sent_JSONL_FR.py`**:
+  - **Purpose**: Processes additional French sentences into JSONL format.
+  - **Key Functions**: Prepare supplementary French text data for annotation.
+
+- **`2_Supplementary_sent_JSONL_SWD.py`**:
+  - **Purpose**: Processes additional Swedish sentences into JSONL format.
+  - **Key Functions**: Prepare supplementary Swedish text data for annotation.
+
+- **`2_Translate_JSONL_for_annotation.py`**:
+  - **Purpose**: Translates sentences to be annotated and formats them into JSONL.
+  - **Key Functions**: Translate and format text data for annotation tasks.
+
+- **`3_JSONL_train_AS.py`**:
+  - **Purpose**: Prepares JSONL files for training annotation models.
+  - **Key Functions**: Structure data into JSONL format for training purposes.
+
+#### 📂 3_Training_and_Annotation
+
+This subdirectory contains scripts for training models and annotating text data.
+
+- **`1_Train_QC.py`**:
+  - **Purpose**: Trains models using the Quebec text data.
+  - **Key Functions**: Train machine learning models on preprocessed Quebec text data.
+
+- **`1_Train_SWD.py`**:
+  - **Purpose**: Trains models using the Swedish text data.
+  - **Key Functions**: Train machine learning models on preprocessed Swedish text data.
+
+- **`2_Predict_QC.py`**:
+  - **Purpose**: Makes predictions using models trained on Quebec data.
+  - **Key Functions**: Use trained models to predict annotations on Quebec text data.
+
+- **`2_Predict_SWD.py`**:
+  - **Purpose**: Makes predictions using models trained on Swedish data.
+  - **Key Functions**: Use trained models to predict annotations on Swedish text data.
+
+#### 📂 4_Data_Analysis
+
+This subdirectory includes scripts for analyzing the processed and annotated data.
+
+- **`1.Database_creation.R`**:
+  - **Purpose**: Creates databases from the preprocessed data for analysis.
+  - **Key Functions**: Compile and structure preprocessed data into databases for analysis, merging various data sources.
+
+- **`2.Graphs_and_plot.R`**:
+  - **Purpose**: Generates graphs and plots for visual data analysis.
+  - **Key Functions**: Visualize data through various types of plots and graphs, highlighting key trends and findings.
+
+- **`3.Models.R`**:
+  - **Purpose**: Runs statistical models on the data.
+  - **Key Functions**: Apply statistical analysis and modeling to understand data patterns and test hypotheses.
+
+- **`4.Robustness.R`**:
+  - **Purpose**: Tests the robustness of the statistical models.
+  - **Key Functions**: Validate and verify the reliability of models through robustness checks and sensitivity analyses.
+
+## How to Use
+
+1. **Preprocessing**:
+   - Run the preprocessing scripts to clean and tokenize the text data.
+   - Ensure the required libraries (e.g., `spacy`, `pandas`, `langdetect`) are installed.
+
+2. **Feedback Scripts**:
+   - Use these scripts to process feedback data.
+
+3. **Training and Annotation**:
+   - Train models and annotate sentences using the scripts in this subdirectory.
+
+4. **Data Analysis**:
+   - Analyze the processed and annotated data to derive insights and conclusions.
+
+## Installation
+
+Install the required Python libraries using:
+```bash
+pip install -r requirements.txt
