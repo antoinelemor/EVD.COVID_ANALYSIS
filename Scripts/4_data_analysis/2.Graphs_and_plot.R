@@ -1,7 +1,8 @@
 ##### GRAPHS FOR QUEBEC #####
 
 # Base path
-import_data_path <- "/EVD.COVID_ANALYSIS/Database/annotated_data"
+import_data_path <- "/Database/annotated_data"
+import_data_path_epidemiology <- "/Database/epidemiology"
 export_path <- "/EVD.COVID_ANALYSIS/Results"
 
 
@@ -285,3 +286,75 @@ print(p)
 
 # Save plot
 ggsave(filename = "SWD.unc.results_suppression_measures_and_moderate_frame_projections.pdf", plot = p, path = export_path, width = 12, height = 10)
+
+
+##### GRAPH OF COVID DEATHS IN QUEBEC AND SWEDEN #####
+
+# Define paths
+input_file <- file.path(import_data_path_epidemiology, "deaths_per_100k.xlsx")
+
+# Load data for deaths per million
+deaths_data <- read_excel(input_file)
+
+# Check data structure
+str(deaths_data)
+
+# Convert QC and SWD columns to numeric
+deaths_data <- deaths_data %>%
+  mutate(
+    QC = as.numeric(QC),
+    SWD = as.numeric(SWD)
+  )
+
+# Convert deaths per million to deaths per 100,000
+deaths_data <- deaths_data %>%
+  mutate(
+    QC_100k = QC / 10,
+    SWD_100k = SWD / 10
+  )
+
+# Convert Date column to Date class
+deaths_data <- deaths_data %>%
+  mutate(Date = as.Date(Date))
+
+# Reshape data to long format
+deaths_long <- deaths_data %>%
+  select(Date, QC_100k, SWD_100k) %>%
+  pivot_longer(cols = c(QC_100k, SWD_100k),
+               names_to = "Region",
+               values_to = "Deaths")
+
+# Set color palette
+qc_color <- "#AEC6CF"  # Pale blue
+swd_color <- "#FFCE00" # Pale yellow
+
+# Plot: smoothed lines over time
+p <- ggplot(deaths_long, aes(x = Date, y = Deaths, color = Region)) +
+  geom_smooth(method = "loess", span = 0.2, size = 1.5, se = FALSE) +
+  scale_color_manual(values = c("QC_100k" = qc_color, "SWD_100k" = swd_color),
+                     labels = c("QC_100k" = "Quebec", "SWD_100k" = "Sweden")) +
+  scale_x_date(date_breaks = "1 month",
+               date_labels = "%b %Y",
+               limits = c(as.Date("2020-01-01"), as.Date("2022-06-01"))) +
+  labs(title = "COVID-19 Deaths per 100,000 People Over Time in Quebec and Sweden",
+       x = "Date",
+       y = "COVID-19 Deaths (per 100,000)",
+       color = "Jurisdiction") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 18, face = "bold"),
+    axis.title.x = element_text(size = 15),
+    axis.title.y = element_text(size = 15),
+    axis.text = element_text(size = 12),
+    axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),  # Rotate x-axis labels
+    legend.title = element_text(size = 13),
+    legend.text = element_text(size = 11),
+    legend.position = "bottom"
+  )
+
+# Save plot
+ggsave(filename = "QC_SWD_deaths_per_100k.pdf",
+       plot = p,
+       path = export_path,
+       width = 12,
+       height = 10)
