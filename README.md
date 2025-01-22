@@ -32,14 +32,12 @@ This repository contains all data, scripts, models, and results used in the comp
    2. [Scripts/2_feedback_scripts](#scripts2_feedback_scripts)  
    3. [Scripts/3_training_and_annotation](#scripts3_training_and_annotation)  
    4. [Scripts/4_data_analysis](#scripts4_data_analysis)  
-4. [How to Use This Repository](#how-to-use-this-repository)  
-5. [License and Citation](#license-and-citation)
 
 ---
 
 ## Abstract
 
-Below is the abstract of the article in text form, along with a screenshot of the same abstract stored in the `Results` folder:
+Below is the abstract of the article:
 
 > **BEYOND EVIDENCE: HOW FRAMING SHAPES PUBLIC HEALTH POLICIES DURING HEALTH CRISES**  
 > **ABSTRACT**  
@@ -49,7 +47,7 @@ Below is the abstract of the article in text form, along with a screenshot of th
 
 ## Repository Structure
 
-Below is an overview of all major directories and files within this repository. Each file is critical to either data gathering, data preprocessing, model training, inference, or analysis.
+Below is an overview of all major directories and files within this repository.
 
 ```
 EVD.COVID_ANALYSIS
@@ -77,7 +75,7 @@ The `Database` folder is home to all datasets used and produced during the proje
 
 1. **annotated_data**  
    - Contains final CSV files with annotation labels (e.g., `QC.final_annotated_texts.csv`, `SWD.final_annotated_texts.csv`).  
-   - Includes frame databases (`QC.frame_database.csv`, `SWD.frame_database.csv`, and `_2.csv` variations) for both countries, used for regression analyses and correlation checks.
+   - Includes frame databases (`QC.frame_database.csv`, `SWD.frame_database.csv`, and `_2.csv` variations for mitigation policies) for both countries, used for regression analyses and correlation checks.
 
 2. **epidemiology**  
    - This subfolder houses spreadsheets of epidemiological data such as case counts, hospitalizations, vaccination rates, and stringency indexes (e.g., `QC.COVID_data.xlsx`, `SWD.cases.csv`, `SWD.hospitalizations.csv`).  
@@ -135,12 +133,10 @@ The `Scripts` folder contains all Python and R scripts involved in data cleaning
 
 ### 4. models
 
-The `models` folder contains saved model files for each label, with subfolders such as `frame_QC`, `measures_QC`, etc. Each subfolder typically has:
+The `models` folder contains saved model files for each label (absent here because of the weight), with subfolders such as `frame_QC`, `measures_QC`, etc. Each subfolder typically has:
 
 - A `config.json` file.  
 - A tokenizer file (e.g., `sentencepiece.bpe.model` or `vocab.txt`).  
-
-These are outputs of the HuggingFace-based training process using either **Camembert** (for French) or **SwedishBert** (for Swedish).
 
 ---
 
@@ -150,34 +146,30 @@ Below are step-by-step explanations of selected key scripts in each folder. All 
 
 ### Scripts/1_preprocessing
 
-1. **`2_Sentences_to_annotate.py`**  
+1. **`1_Preprocessed_SWD.py`**  
+   - **Goal**: Takes the original Swedish press conference data (`SWD.conf_texts.csv`), tokenizes each text into sentences (with context windows), and saves the result to `SWD.processed_conf_texts.csv`.  
+
+2. **`1_Preprocessed_QC.py`**  
+   - **Goal**: Similarly, for Quebec’s French data, removes English sentences, tokenizes into sentences, and generates context windows around each sentence. Saves to `QC.processed_conf_texts.csv`.
+
+3. **`2_Sentences_to_annotate.py`**  
    - **Goal**: Calculate the total number of sentences in press conferences (both Quebec and Sweden). Then compute the recommended number of sentences to annotate, based on a 95% confidence level and 5% margin of error.  
    - **Key Functions**:  
      - `remove_english_sentences(text)`: Removes any English sentences from a text block.  
      - `tokenize_and_context(text, nlp)`: Tokenizes the text into sentences using SpaCy.  
      - `calculate_sample_size(N, Z, E, p=0.5)`: Computes the number of samples needed.
 
-2. **`1_Preprocessed_SWD.py`**  
-   - **Goal**: Takes the original Swedish press conference data (`SWD.conf_texts.csv`), tokenizes each text into sentences (with context windows), and saves the result to `SWD.processed_conf_texts.csv`.  
-
-3. **`1_Preprocessed_QC.py`**  
-   - **Goal**: Similarly, for Quebec’s French data, removes English sentences, tokenizes into sentences, and generates context windows around each sentence. Saves to `QC.processed_conf_texts.csv`.
-
 ### Scripts/2_feedback_scripts
 
 1. **`1_JSONL_Annotation.py`**  
-   - **Goal**: Converts CSV data into JSONL format for annotation or model training. Splits data into training, evaluation, and test sets.  
+   - **Goal**: Converts CSV data into JSONL format for annotation and model training. Splits data into training, evaluation, and test sets.  
    - **Key Steps**:  
      - Loads existing training data IDs to prevent duplicates.  
      - Randomly splits data with user-defined proportions.  
      - Exports JSONL files with text and metadata.
 
-2. **`3_JSONL_train_AS.py`**  
-   - **Goal**: Reads annotation JSONL, maps textual responses (e.g., “oui”, “non”, “dangereux”) to integer labels, then writes them into separate JSONL files per label.  
-   - **Key Steps**:  
-     - Splits by country code (QC or SWD).  
-     - Groups data by label key (frame, measures, source detection, etc.).  
-     - Ensures distribution is tracked (number of occurrences per label).
+2. **`2_Translate_JSONL_for_annotation.py`**  
+   - **Goal**: Uses DeepL to translate Swedish text into French, appending the translation within the same JSONL to allow annotations from French-speaking annotators.
 
 3. **`2_Supplementary_sent_JSONL_FR.py`** and **`2_Supplementary_sent_JSONL_SWD.py.py`**  
    - **Goal**: Select random new sentences (not previously annotated) for further annotation.  
@@ -186,8 +178,12 @@ Below are step-by-step explanations of selected key scripts in each folder. All 
      - Filters out duplicates.  
      - Exports a random sample as a new JSONL file.  
 
-4. **`2_Translate_JSONL_for_annotation.py`**  
-   - **Goal**: Uses DeepL to translate Swedish text into French, appending the translation within the same JSONL to assist French-speaking annotators.
+3. **`3_JSONL_train_AS.py`**  
+   - **Goal**: Reads annotation JSONL, maps textual responses (e.g., “oui”, “non”, “dangereux”) to integer labels, then writes them into separate JSONL files per label for training models.
+   - **Key Steps**:  
+     - Splits by country code (QC or SWD).  
+     - Groups data by label key (frame, measures, source detection, etc.).  
+     - Ensures distribution is tracked (number of occurrences per label).
 
 ### Scripts/3_training_and_annotation
 
@@ -199,15 +195,15 @@ Below are step-by-step explanations of selected key scripts in each folder. All 
      - Trains with specific parameters (learning rate, epochs).  
      - Saves the trained model under `models/` (e.g., `frame_QC`, `measures_QC`).
 
-2. **`2_Predict_QC.py`**  
-   - **Goal**: Uses the trained Camembert models to predict frames, evidence presence, measures, etc., on the final Quebec data.  
-   - **Outputs**:  
-     - A final annotated CSV (`QC.final_annotated_texts.csv`).
-
-3. **`1_Train_SWD.py`**  
+2. **`1_Train_SWD.py`**  
    - **Goal**: Trains **SwedishBert** models for Sweden data.  
    - **Details**:  
      - Similar flow to Quebec’s training but uses Swedish language data and the SwedishBert model.
+
+3. **`2_Predict_QC.py`**  
+   - **Goal**: Uses the trained Camembert models to predict frames, evidence presence, measures, etc., on the final Quebec data.  
+   - **Outputs**:  
+     - A final annotated CSV (`QC.final_annotated_texts.csv`).
 
 4. **`2_Predict_SWD.py`**  
    - **Goal**: Predicts labels for Swedish texts using the trained SwedishBert models.  
@@ -216,61 +212,25 @@ Below are step-by-step explanations of selected key scripts in each folder. All 
 
 ### Scripts/4_data_analysis
 
-1. **`4.Robustness.R`**  
-   - **Goal**: Conducts robustness checks:  
-     - Calculates Variance Inflation Factors (VIF) for regression models in Quebec and Sweden (`QC.frame_database_2.csv`, `SWD.frame_database_2.csv`).  
-     - Creates correlation matrices and correlation heatmaps (e.g., `QC.corrplot_manual.png`).  
-     - Analyzes annotation distributions over time.
-
-2. **`2.Graphs_and_plot.R`**  
-   - **Goal**: Generates major plots illustrating policy stringency, simulated effects of frames vs. evidence, and COVID deaths over time.  
-   - **Outputs**:  
-     - PDFs of interactive results, e.g., `QC.unc.results_moderate_frame_and_evidence_stringency_projections.pdf`.
-
-3. **`1.Database_creation.R`**  
+1. **`1.Database_creation.R`**  
    - **Goal**: Builds and merges all relevant epidemiological and annotated data into final CSVs (`QC.frame_database.csv`, `SWD.frame_database.csv`, etc.).  
    - **Steps**:  
      - Normalize epidemiological variables.  
      - Merge with textual aggregates (`detect_evidence`, `detect_frame`, etc.).  
      - Export final databases for modeling.
 
-4. **`3.Models.R`**  
-   - **Goal**: Performs OLS regressions on the merged datasets. Summarizes how frames and evidence predict mitigation or suppression outcomes.  
+2. **`2.Graphs_and_plot.R`**  
+   - **Goal**: Generates major plots illustrating policy stringency, simulated effects of frames vs. evidence, and COVID deaths over time.  
+   - **Outputs**:  
+     - PDFs of interactive results, e.g., `QC.unc.results_moderate_frame_and_evidence_stringency_projections.pdf`.
+
+3. **`3.Models.R`**  
+   - **Goal**: Performs OLS regressions on the merged datasets. Summarizes how frames and evidence predict mitigation or suppression policies.  
    - **Outputs**:  
      - Word documents with regression tables (e.g., `combined_results_OLS_mitigation.docx`).
 
----
-
-## How to Use This Repository
-
-1. **Data Preparation**:  
-   - Place your raw CSV files in `Database/original_data/`.  
-   - Run scripts in `Scripts/1_preprocessing/` to generate sentence-level data in `Database/preprocessed_data/`.
-
-2. **Annotation & Model Training**:  
-   - Create JSONL files using `Scripts/2_feedback_scripts/1_JSONL_Annotation.py`.  
-   - Annotate or check the distribution.  
-   - Train models using Camembert (for French data) or SwedishBert (for Swedish data). The scripts are in `Scripts/3_training_and_annotation/`.
-
-3. **Prediction**:  
-   - Apply the trained models with `2_Predict_QC.py` or `2_Predict_SWD.py` to label your data.  
-   - The final labeled data will appear in `Database/annotated_data/` as `QC.final_annotated_texts.csv` or `SWD.final_annotated_texts.csv`.
-
-4. **Analysis**:  
-   - Run R scripts in `Scripts/4_data_analysis/` to merge the epidemiological and textual data, compute correlations, run regression models, and generate visualizations.  
-   - Check final results in the `Results` folder.
-
----
-
-## License and Citation
-
-- **License**: Please see the repository license if provided, or assume academic use only.  
-- **Citation**: If you use or extend this code or data, please cite the associated article:
-
-  ```
-  Lemor, A., & Collaborators (2023).
-  Beyond Evidence: How Framing Shapes Public Health Policies During Health Crises.
-  (In press / Working Paper).
-  ```
-
-For any questions or suggestions, please open an issue or contact the author(s). Thank you for your interest in **EVD.COVID_ANALYSIS**!
+4. **`4.Robustness.R`**  
+   - **Goal**: Conducts robustness checks:  
+     - Calculates Variance Inflation Factors (VIF) for regression models in Quebec and Sweden (`QC.frame_database_2.csv`, `SWD.frame_database_2.csv`).  
+     - Creates correlation matrices and correlation heatmaps (e.g., `QC.corrplot_manual.png`).  
+     - Analyzes annotation distributions over time.
