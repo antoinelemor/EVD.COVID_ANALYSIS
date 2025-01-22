@@ -9,7 +9,7 @@ TITLE:
 
 MAIN OBJECTIVE:
 -------------------
-This script processes annotation data to generate JSONL files for training, testing, and prediction purposes in the EVD.COVID_Analysis project. It maps responses to numerical values and categorizes annotations based on country code.
+This script processes annotation data to generate JSONL files for training, testing, and prediction purposes. 
 
 Dependencies:
 -------------

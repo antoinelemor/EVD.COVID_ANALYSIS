@@ -9,7 +9,7 @@ TITLE:
 
 MAIN OBJECTIVE:
 ---------------
-This script trains and evaluates models for various Quality Control (QC) tasks 
+This script trains and evaluates BERT-type models
 using the Camembert model. It processes training and testing data, encodes text
 and labels, and runs training for each QC category.
 

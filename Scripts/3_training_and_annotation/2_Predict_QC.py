@@ -9,7 +9,8 @@ TITLE:
 
 MAIN OBJECTIVE:
 ---------------
-This script performs quality control predictions on COVID-related texts using various models. It processes the preprocessed data, applies multiple prediction models to detect COVID, evidence, frame, country source, measures, source, journalist questions, and associated emotions. The results are integrated into the original DataFrame and saved for further analysis.
+This script applies multiple prediction models to detect COVID, evidence, frame, country source, measures, source, journalist questions, and associated emotions. 
+The results are integrated into the original DataFrame and saved for further analysis.
 
 Dependencies:
 -------------
