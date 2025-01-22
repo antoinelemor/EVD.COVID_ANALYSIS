@@ -1,3 +1,36 @@
+"""
+PROJECT:
+-------
+EVD.COVID_Analysis
+
+TITLE:
+------
+1_Preprocessed_QC.py
+
+MAIN OBJECTIVE:
+---------------
+Preprocessing and quality checking of press conference texts, removing English sentences,
+creating sentence-level contexts, and saving the processed data.
+
+Dependencies:
+-------------
+- os
+- pandas
+- spacy
+- sklearn
+- langdetect
+
+MAIN FEATURES:
+--------------
+1) Detect and remove English sentences.
+2) Tokenize French texts using spaCy and create sentence contexts.
+3) Save the transformed data in CSV format.
+
+Author:
+-------
+Antoine Lemor
+"""
+
 import os
 import pandas as pd
 import spacy
@@ -10,14 +43,26 @@ script_dir = os.path.dirname(__file__)
 # Relative path to the CSV file in the Database folder
 csv_path = os.path.join(script_dir, '..', '..', 'Database', 'original_data', 'QC.conf_texts.csv')
 
-# Loading the French spaCy model
+# Loading the spaCy model for French language processing
 nlp = spacy.load('fr_dep_news_trf')
 
 # Setting the seed for language detection
 DetectorFactory.seed = 0
 
-# Function to detect and remove English sentences
 def remove_english_sentences(text):
+    """
+    Detects and removes English sentences from the provided text.
+
+    Parameters
+    ----------
+    text : str
+        The input text to filter.
+
+    Returns
+    -------
+    str
+        A string containing only French sentences.
+    """
     sentences = text.split('.')
     filtered_sentences = []
     for sentence in sentences:
@@ -29,8 +74,20 @@ def remove_english_sentences(text):
             pass
     return '. '.join(filtered_sentences)
 
-# Function to tokenize and create sentence context
 def tokenize_and_context(text):
+    """
+    Tokenizes the provided text using a French spaCy model and creates sentence contexts.
+
+    Parameters
+    ----------
+    text : str
+        The input text to tokenize.
+
+    Returns
+    -------
+    list
+        A list of tuples where each tuple contains a sentence index and its context.
+    """
     doc = nlp(text)
     sentences = [sent.text.strip() for sent in doc.sents]
     contexts = []

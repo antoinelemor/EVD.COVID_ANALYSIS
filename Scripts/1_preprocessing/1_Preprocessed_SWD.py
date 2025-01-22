@@ -1,3 +1,36 @@
+"""
+PROJECT:
+-------
+EVD.COVID_Analysis
+
+TITLE:
+------
+1_Preprocessed_SWD.py
+
+MAIN OBJECTIVE:
+---------------
+This script reads a CSV file, tokenizes the Swedish conference texts, 
+and then generates context windows around each sentence.
+
+Dependencies:
+-------------
+- os
+- pandas
+- spacy
+- sklearn
+- langdetect
+
+MAIN FEATURES:
+--------------
+1) Loads Swedish spaCy model.
+2) Reads CSV data and iterates over each row to split text into contexts.
+3) Creates a new structured DataFrame with context windows and saves it as CSV.
+
+Author:
+-------
+Antoine Lemor
+"""
+
 import os
 import pandas as pd
 import spacy
@@ -17,6 +50,21 @@ nlp = spacy.load('sv_core_news_lg')
 DetectorFactory.seed = 0
 
 def tokenize_and_context(text):
+    """
+    Tokenizes the text using the Swedish spaCy model and generates 
+    context windows for each sentence.
+
+    Parameters:
+    -----------
+    text : str
+        The text to be tokenized and split into context windows.
+
+    Returns:
+    --------
+    list of tuples
+        A list where each tuple contains a sentence index and the 
+        corresponding context window.
+    """
     doc = nlp(text)
     sentences = [sent.text.strip() for sent in doc.sents]
     contexts = []

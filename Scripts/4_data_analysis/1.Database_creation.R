@@ -1,3 +1,36 @@
+# PROJECT:
+# -------
+# EVD.COVID_ANALYSIS
+#
+# TITLE:
+# ------
+# 1.Database_creation.R
+#
+# MAIN OBJECTIVE:
+# -------------------
+# This script creates and processes epidemiological and textual databases for COVID-19 analysis.
+# It includes data loading, normalization, aggregation, and merging tasks for Quebec and Sweden datasets.
+#
+# Dependencies:
+# -------------
+# - readr
+# - dplyr
+# - readxl
+# - purrr
+# - lubridate
+#
+# MAIN FEATURES:
+# ----------------------------
+# 1) Load and import datasets for Quebec and Sweden.
+# 2) Normalize data indices for hospitalization, vaccination, cases, and deaths.
+# 3) Calculate textual aggregates based on annotated texts.
+# 4) Merge epidemiological data with textual aggregates.
+# 5) Export the final databases for suppression and mitigation policy models.
+#
+# Author:
+# --------
+# Antoine Lemor
+
 library(readr)
 library(dplyr)
 library(readxl)
@@ -14,6 +47,9 @@ import_data_epidemiology_path <- "/EVD.COVID_ANALYSIS/EVD.COVID_ANALYSIS/Databas
 export_path <- "/EVD.COVID_ANALYSIS/Database/annotated_data"
 
 # Loading datasets
+# ----------------
+# Import hospitalization, vaccination, and stringency data for Quebec.
+
 hospi_file <- file.path(import_data_epidemiology_path, "QC.COVID_data.xlsx")
 hospi <- read_excel(hospi_file, sheet = 1)
 
@@ -35,6 +71,9 @@ vacc$date <- as.Date(vacc$date, format = "%Y-%m-%d")
 db$date <- as.Date(db$date)
 
 # Preparing the epidemiological database for indices
+# ---------------------------------------------------
+# Normalize the hospitalization, vaccination, cases, and deaths data to a scale of 0 to 100.
+
 epi_data <- hospi %>%
   full_join(vacc, by = "date") %>%
   mutate(
@@ -47,10 +86,16 @@ epi_data <- hospi %>%
   distinct()
 
 # Integrating SPHM_data into epi_data
+# -----------------------------------
+# Merge stringency policy data into the epidemiological dataset based on the date.
+
 epi_data <- epi_data %>%
   left_join(SPHM_data %>% select(date, stringencyPHM, stringencyIndex), by = "date")
 
 # Calculating aggregates with the new 'evidence_full' variable
+# -----------------------------------------------------------
+# Compute various rates and the 'evidence_full' metric from the textual database.
+
 text_aggregates <- db %>%
   filter(detect_covid == 1, detect_journalist_question == 0) %>%
   group_by(date) %>%
@@ -71,6 +116,9 @@ text_aggregates <- db %>%
   )
 
 # Adding the wave variable based on the date in epi_data
+# -----------------------------------------------------
+# Assign a wave number to each entry based on the date to categorize different phases of the pandemic.
+
 epi_data <- epi_data %>%
   mutate(
     wave = case_when(
@@ -85,13 +133,23 @@ epi_data <- epi_data %>%
   )
 
 # Merging epidemiological data with textual aggregates
+# -----------------------------------------------------
+# Combine the normalized epidemiological data with the computed textual aggregates.
+
 final_db <- epi_data %>%
   left_join(text_aggregates, by = "date")
 
-# Correcting the error in the command line to save the file correctly
+# Exporting the final database for Quebec
+# ---------------------------------------
+# Save the processed Quebec database to a CSV file.
+
 write_csv(final_db, file.path(export_path, "QC.frame_database.csv"))
 
 ## CREATING DATABASE FOR SWEDEN ##
+
+# Loading datasets for Sweden
+# ---------------------------
+# Import vaccination, stringency, hospitalization, and case/death data for Sweden.
 
 # Importing and processing vaccination data
 vax_data <- read_csv(file.path(import_data_epidemiology_path, "SWD.vax.csv")) %>%
@@ -165,7 +223,10 @@ SWD.frame_database_final <- SWD.frame_database %>%
            !is.na(neutral_emotion_rate) & !is.na(negative_emotion_rate) & !is.na(positive_emotion_rate) & 
            !is.na(evidence_full))
 
-# Exporting normalized and merged data
+# Exporting normalized and merged data for Sweden
+# -----------------------------------------------
+# Save the processed Sweden database to a CSV file.
+
 write_csv(SWD.frame_database_final, file.path(export_path, "SWD.frame_database_2.csv"))
 
 #### DATABASE FOR MITIGATION POLICY MODELS ####

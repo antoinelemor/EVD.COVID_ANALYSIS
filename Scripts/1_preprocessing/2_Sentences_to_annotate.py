@@ -1,3 +1,38 @@
+"""
+PROJECT:
+-------
+EVD.COVID_ANALYSIS
+
+TITLE:
+------
+2_Sentences_to_annotate.py
+
+MAIN OBJECTIVE:
+---------------
+This script preprocesses conference texts by removing English sentences 
+(if applicable), tokenizing the text into sentences, and calculating 
+the number of sentences to be annotated manually for each country based on statistical parameters.
+
+Dependencies:
+-------------
+- os
+- pandas
+- spacy
+- langdetect
+
+MAIN FEATURES:
+--------------
+1) Loads conference texts from CSV files for Quebec and Sweden.
+2) Removes English sentences from Quebec texts.
+3) Tokenizes texts into sentences using spaCy models.
+4) Calculates the total number of sentences per country.
+5) Determines the sample size for manual annotation based on confidence level and margin of error.
+
+Author:
+-------
+Antoine Lemor
+"""
+
 import os
 import pandas as pd
 import spacy
@@ -19,7 +54,24 @@ nlp_swd = spacy.load('sv_core_news_lg')
 # Setting the seed for language detection
 DetectorFactory.seed = 0
 
+##############################################################################
+#                      Function: remove_english_sentences
+#    - Strategy: Splits text into sentences and filters out those detected as English.
+##############################################################################
 def remove_english_sentences(text):
+    """
+    Removes English sentences from the provided text.
+
+    Parameters:
+    ----------
+    text : str
+        The text from which to remove English sentences.
+
+    Returns:
+    -------
+    str
+        The text with English sentences removed.
+    """
     sentences = text.split('.')
     filtered_sentences = []
     for sentence in sentences:
@@ -30,12 +82,49 @@ def remove_english_sentences(text):
             pass
     return '. '.join(filtered_sentences)
 
+##############################################################################
+#                      Function: tokenize_and_context
+#    - Strategy: Uses spaCy to tokenize text into sentences.
+##############################################################################
 def tokenize_and_context(text, nlp):
+    """
+    Tokenizes the provided text into sentences using the specified spaCy model.
+
+    Parameters:
+    ----------
+    text : str
+        The text to tokenize.
+    nlp : spacy.lang
+        The spaCy language model to use for tokenization.
+
+    Returns:
+    -------
+    list of str
+        A list of tokenized sentences.
+    """
     doc = nlp(text)
     return [sent.text.strip() for sent in doc.sents]
 
-# Calculate the total number of sentences for each country
+##############################################################################
+#                      Function: calculate_sentences
+#    - Strategy: Calculates the total number of sentences for a given country.
+##############################################################################
 def calculate_sentences(csv_path, country):
+    """
+    Calculates the total number of sentences in the CSV file for the specified country.
+
+    Parameters:
+    ----------
+    csv_path : str
+        The file path to the CSV containing conference texts.
+    country : str
+        The country code ('QC' or 'SWD').
+
+    Returns:
+    -------
+    int
+        The total number of sentences for the country.
+    """
     df = pd.read_csv(csv_path)
     total_sentences = 0
 
@@ -50,6 +139,7 @@ def calculate_sentences(csv_path, country):
 
     return total_sentences
 
+# Calculate the total number of sentences for each country
 total_sentences_by_country = {}
 
 for country, path in csv_paths.items():
@@ -59,8 +149,30 @@ for country, path in csv_paths.items():
 Z = 1.96  # 95% confidence level
 E = 0.05  # Margin of error
 
-# Function to calculate adjusted sample size
+##############################################################################
+#                      Function: calculate_sample_size
+#    - Strategy: Computes the adjusted sample size based on population and error margins.
+##############################################################################
 def calculate_sample_size(N, Z, E, p=0.5):
+    """
+    Calculates the adjusted sample size for manual annotation.
+
+    Parameters:
+    ----------
+    N : int
+        The total population size.
+    Z : float
+        The Z-score corresponding to the desired confidence level.
+    E : float
+        The margin of error.
+    p : float, optional
+        The estimated proportion of the population (default is 0.5).
+
+    Returns:
+    -------
+    int
+        The adjusted sample size.
+    """
     n_unadjusted = ((Z**2) * p * (1 - p)) / (E**2)
     n_adjusted = n_unadjusted / (1 + (n_unadjusted - 1) / N)
     return int(n_adjusted)

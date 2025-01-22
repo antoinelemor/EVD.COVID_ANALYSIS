@@ -1,3 +1,36 @@
+# PROJECT:
+# -------
+# EVD.COVID_ANALYSIS
+# 
+# TITLE:
+# ------
+# 3.Models.R
+# 
+# MAIN OBJECTIVE:
+# -------------------
+# This script performs Ordinary Least Squares (OLS) regression analyses on
+# mitigation and suppression measures using data from Quebec and Sweden.
+# 
+# Dependencies:
+# -------------
+# - modelsummary
+# - flextable
+# - tidyverse
+# - officer
+# - knitr
+# - kableExtra
+# 
+# MAIN FEATURES:
+# ----------------------------
+# 1) Imports annotated datasets for Quebec and Sweden.
+# 2) Fits multiple OLS regression models for mitigation and suppression measures.
+# 3) Combines and summarizes the models.
+# 4) Generates and exports regression tables to Word documents.
+# 
+# Author : 
+# --------
+# Antoine Lemor
+
 ### OLS MODELS ###
 
 

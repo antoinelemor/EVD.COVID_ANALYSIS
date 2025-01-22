@@ -1,3 +1,39 @@
+##############################################################################
+# PROJECT:
+# -------
+# EVD.COVID_Analysis
+#
+# TITLE:
+# ------
+# 4_Robustness.R
+#
+# MAIN OBJECTIVE:
+# -------------------
+# This script conducts robustness checks on COVID analysis, including:
+# - Calculation of Variance Inflation Factors (VIFs) for regression models
+# - Generation of correlation tables for Quebec and Sweden
+# - Analysis of annotation distribution over time
+#
+# Dependencies:
+# -------------
+# - readr
+# - dplyr
+# - car
+# - ggplot2
+# - reshape2
+#
+# MAIN FEATURES:
+# ----------------------------
+# 1) Imports data for Quebec and Sweden.
+# 2) Builds linear regression models and calculates VIFs.
+# 3) Generates and saves correlation matrices and plots.
+# 4) Analyzes the distribution of annotations over time and saves plots.
+#
+# Author:
+# --------
+# Antoine Lemor
+##############################################################################
+
 #### CALCULATION OF VIFS FOR BOTH COUNTRIES ####
 
 # Load the necessary libraries

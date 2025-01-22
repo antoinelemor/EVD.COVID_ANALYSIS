@@ -1,3 +1,34 @@
+"""
+PROJECT:
+-------
+EVD.COVID_Analysis
+
+TITLE:
+------
+3_JSONL_train_AS.py
+
+MAIN OBJECTIVE:
+-------------------
+This script processes annotation data to generate JSONL files for training, testing, and prediction purposes in the EVD.COVID_Analysis project. It maps responses to numerical values and categorizes annotations based on country code.
+
+Dependencies:
+-------------
+- os
+- json
+
+MAIN FEATURES:
+----------------------------
+1) Converts annotation responses into numerical values based on predefined mappings.
+2) Processes annotations per country and data type (train, test, predict).
+3) Handles duplicate labels and ensures proper distribution of annotations.
+4) Generates JSONL files with textual data and corresponding labels.
+5) Logs the distribution of annotations per output file.
+
+Author:
+--------
+Antoine Lemor
+"""
+
 import json
 import os
 
@@ -17,6 +48,25 @@ response_mappings = {
 }
 
 def process_annotations(input_path, base_output_dir, country_code, data_type):
+    """
+    Processes annotation data to generate JSONL files based on country code and data type.
+
+    Parameters:
+    ----------
+    input_path : str
+        Path to the input JSONL file containing annotations.
+    base_output_dir : str
+        Base directory where output JSONL files will be saved.
+    country_code : str
+        Country code (e.g., 'QC', 'SWD') to determine output subdirectory and processing logic.
+    data_type : str
+        Type of data being processed ('train', 'test', 'predict').
+
+    Raises:
+    ------
+    ValueError:
+        If an unsupported country code is provided.
+    """
     if country_code == "QC":
         output_dir = os.path.join(base_output_dir, 'QC')
     elif country_code == "SWD":

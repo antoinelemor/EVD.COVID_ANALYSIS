@@ -1,3 +1,42 @@
+# ==============================================================================
+# PROJECT:
+# -------
+# EVD.COVID_ANALYSIS
+# 
+# TITLE:
+# ------
+# 2.Graphs_and_plot.R
+# 
+# MAIN OBJECTIVE:
+# -------------------
+# This script performs data analysis and generates graphs and plots related 
+# to COVID-19 policy stringency and mitigation measures for Quebec and Sweden. 
+# It loads annotated data, defines linear models, simulates policy projections 
+# based on evidence levels, and saves the resulting plots.
+# 
+# DEPENDENCIES:
+# -------------
+# - lme4
+# - ggplot2
+# - dplyr
+# 
+# MAIN FEATURES:
+# ----------------------------
+# 1) Loads data for Quebec and Sweden from annotated CSV files.
+# 2) Defines multiple linear regression models to analyze the impact of 
+#    various frame rates and evidence levels on policy stringency and 
+#    mitigation measures.
+# 3) Simulates policy projections based on model coefficients and different 
+#    levels of evidence.
+# 4) Generates and saves plots illustrating the effects of moderate and 
+#    dangerous frames on policy outcomes over varying evidence levels.
+# 5) Analyzes COVID-19 death data in Quebec and Sweden, and visualizes trends.
+# 
+# AUTHOR:
+# --------
+# Antoine Lemor
+# ==============================================================================
+
 ##### GRAPHS FOR QUEBEC #####
 
 # Base path

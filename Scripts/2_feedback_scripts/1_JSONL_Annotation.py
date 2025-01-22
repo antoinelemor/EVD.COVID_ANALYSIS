@@ -1,3 +1,38 @@
+"""
+PROJECT:
+-------
+EVD.COVID_Analysis
+
+TITLE:
+------
+1_JSONL_Annotation.py
+
+MAIN OBJECTIVE:
+-------------------
+This script processes CSV files to generate JSONL datasets for training, validation, and testing.
+It ensures no duplicate entries by loading existing training IDs and filters out existing data.
+The data is then split into training, evaluation, and test sets and exported in JSONL format.
+
+Dependencies:
+-------------
+- pandas
+- json
+- os
+- sklearn.utils.shuffle
+
+MAIN FEATURES:
+----------------------------
+1) Loads existing training data IDs to avoid duplicates.
+2) Filters out data that already exists in the training set.
+3) Splits data into training, validation, and test sets.
+4) Prepares data and exports it in JSONL format.
+5) Generates JSONL files for training, validation, and test sets for different countries.
+
+Author : 
+--------
+Antoine Lemor
+"""
+
 import pandas as pd
 import json
 import os

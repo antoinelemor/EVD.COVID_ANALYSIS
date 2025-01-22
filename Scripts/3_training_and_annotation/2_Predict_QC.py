@@ -1,3 +1,35 @@
+"""
+PROJECT:
+-------
+EVD.COVID_Analysis
+
+TITLE:
+------
+2_Predict_QC.py
+
+MAIN OBJECTIVE:
+---------------
+This script performs quality control predictions on COVID-related texts using various models. It processes the preprocessed data, applies multiple prediction models to detect COVID, evidence, frame, country source, measures, source, journalist questions, and associated emotions. The results are integrated into the original DataFrame and saved for further analysis.
+
+Dependencies:
+-------------
+- pandas
+- numpy
+- AugmentedSocialScientist.models.Camembert
+
+MAIN FEATURES:
+---------------
+1) Loads prediction data from a CSV file.
+2) Preprocesses the data using the Camembert model.
+3) Applies multiple trained models to predict various labels.
+4) Integrates prediction results into the original DataFrame.
+5) Saves the final annotated DataFrame to a CSV file.
+
+Author:
+-------
+Antoine Lemor
+"""
+
 import pandas as pd
 import numpy as np
 from AugmentedSocialScientist.models import Camembert
@@ -5,7 +37,7 @@ from AugmentedSocialScientist.models import Camembert
 bert = Camembert()  # Instantiation
 
 # Load prediction data
-pred_data_path = '/Users/antoine/Documents/GitHub/EVD.COVID_ANALYSIS/EVD.COVID_ANALYSIS/Database/preprocessed_data/QC.processed_conf_texts.csv'
+pred_data_path = '/EVD.COVID_ANALYSIS/EVD.COVID_ANALYSIS/Database/preprocessed_data/QC.processed_conf_texts.csv'
 pred_data = pd.read_csv(pred_data_path)
 
 # Preprocess prediction data
@@ -14,7 +46,7 @@ pred_loader = bert.encode(pred_data['context'].values)
 # Predict with the trained model
 pred = bert.predict_with_model(
     pred_loader,
-    model_path='/Users/antoine/Documents/GitHub/EVD.COVID_ANALYSIS/EVD.COVID_ANALYSIS/models/detect_COVID_QC'
+    model_path='/EVD.COVID_ANALYSIS/EVD.COVID_ANALYSIS/models/detect_COVID_QC'
 )
 
 # Compute the predicted label as the one with the highest probability
@@ -30,7 +62,7 @@ evidence_loader = bert_evidence.encode(data_to_be_predicted['context'].values)
 
 evidence_pred = bert_evidence.predict_with_model(
     evidence_loader,
-    model_path='/Users/antoine/Documents/GitHub/EVD.COVID_ANALYSIS/EVD.COVID_ANALYSIS/models/detect_evidence_QC'
+    model_path='/EVD.COVID_ANALYSIS/EVD.COVID_ANALYSIS/models/detect_evidence_QC'
 )
 
 data_to_be_predicted['detect_evidence'] = np.argmax(evidence_pred, axis=1)
@@ -47,7 +79,7 @@ frame_loader = bert_frame.encode(data_to_be_predicted['context'].values)
 
 frame_pred = bert_frame.predict_with_model(
     frame_loader,
-    model_path='/Users/antoine/Documents/GitHub/EVD.COVID_ANALYSIS/EVD.COVID_ANALYSIS/models/frame_QC'
+    model_path='/EVD.COVID_ANALYSIS/EVD.COVID_ANALYSIS/models/frame_QC'
 )
 
 # Filter to select only data where 'detect_evidence' is 1
@@ -59,7 +91,7 @@ country_source_loader = bert_country_source.encode(data_with_evidence['context']
 
 country_source_pred = bert_country_source.predict_with_model(
     country_source_loader,
-    model_path='/Users/antoine/Documents/GitHub/EVD.COVID_ANALYSIS/EVD.COVID_ANALYSIS/models/country_source_QC'
+    model_path='/EVD.COVID_ANALYSIS/EVD.COVID_ANALYSIS/models/country_source_QC'
 )
 
 # Update predictions for 'country_source' and their probabilities
@@ -85,7 +117,7 @@ frame_loader = bert_frame.encode(data_to_be_predicted['context'].values)
 
 frame_pred = bert_frame.predict_with_model(
     frame_loader,
-    model_path='/Users/antoine/Documents/GitHub/EVD.COVID_ANALYSIS/EVD.COVID_ANALYSIS/models/measures_QC'
+    model_path='/EVD.COVID_ANALYSIS/EVD.COVID_ANALYSIS/models/measures_QC'
 )
 
 data_to_be_predicted['detect_measures'] = np.argmax(frame_pred, axis=1)
@@ -102,7 +134,7 @@ frame_loader = bert_frame.encode(data_to_be_predicted['context'].values)
 
 frame_pred = bert_frame.predict_with_model(
     frame_loader,
-    model_path='/Users/antoine/Documents/GitHub/EVD.COVID_ANALYSIS/EVD.COVID_ANALYSIS/models/detect_source_QC'
+    model_path='/EVD.COVID_ANALYSIS/EVD.COVID_ANALYSIS/models/detect_source_QC'
 )
 
 data_to_be_predicted['detect_source'] = np.argmax(frame_pred, axis=1)
@@ -119,7 +151,7 @@ frame_loader = bert_frame.encode(data_to_be_predicted['context'].values)
 
 frame_pred = bert_frame.predict_with_model(
     frame_loader,
-    model_path='/Users/antoine/Documents/GitHub/EVD.COVID_ANALYSIS/EVD.COVID_ANALYSIS/models/journalist_question_QC'
+    model_path='/EVD.COVID_ANALYSIS/EVD.COVID_ANALYSIS/models/journalist_question_QC'
 )
 
 data_to_be_predicted['detect_journalist_question'] = np.argmax(frame_pred, axis=1)
@@ -136,7 +168,7 @@ frame_loader = bert_frame.encode(data_to_be_predicted['context'].values)
 
 frame_pred = bert_frame.predict_with_model(
     frame_loader,
-    model_path='/Users/antoine/Documents/GitHub/EVD.COVID_ANALYSIS/EVD.COVID_ANALYSIS/models/associated_emotion_QC'
+    model_path='/EVD.COVID_ANALYSIS/EVD.COVID_ANALYSIS/models/associated_emotion_QC'
 )
 
 data_to_be_predicted['detect_associated_emotions'] = np.argmax(frame_pred, axis=1)
@@ -148,5 +180,5 @@ for idx, row in data_to_be_predicted.iterrows():
     pred_data.at[idx, 'detect_associated_emotions_proba'] = row['detect_associated_emotions_proba']
 
 # Save the final DataFrame with annotations
-final_output_filepath = "/Users/antoine/Documents/GitHub/EVD.COVID_ANALYSIS/EVD.COVID_ANALYSIS/Database/annotated_data/QC.final_annotated_texts.csv"
+final_output_filepath = "/EVD.COVID_ANALYSIS/EVD.COVID_ANALYSIS/Database/annotated_data/QC.final_annotated_texts.csv"
 pred_data.to_csv(final_output_filepath, index=False)
