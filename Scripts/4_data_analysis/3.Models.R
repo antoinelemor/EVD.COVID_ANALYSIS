@@ -66,11 +66,11 @@ models_QC_mitigation[['QC_OLS5']] = lm(mitigation_measure_rate ~ CC100+CD100+dan
 
 # Models for Sweden Mitigation Measures
 models_SE_mitigation <- list()
-models_SE_mitigation[['SE_OLS1']] = lm(mitigation_measure_rate ~ dangerous_frame_rate+TH100+CC100+evidence_full+lag(mitigation_measure_rate, 1), data = reg_data_daily_SE)
-models_SE_mitigation[['SE_OLS2']] = lm(mitigation_measure_rate ~ moderate_frame_rate+TH100+CC100+evidence_full+lag(mitigation_measure_rate, 1), data = reg_data_daily_SE)
-models_SE_mitigation[['SE_OLS3']] = lm(mitigation_measure_rate ~ moderate_frame_rate+TH100+dangerous_frame_rate+CC100+evidence_full+lag(mitigation_measure_rate, 1), data = reg_data_daily_SE)
-models_SE_mitigation[['SE_OLS4']] = lm(mitigation_measure_rate ~ moderate_frame_rate+TH100+CC100+dangerous_frame_rate+evidence_full+dangerous_frame_rate:evidence_full+lag(mitigation_measure_rate, 1), data = reg_data_daily_SE)
-models_SE_mitigation[['SE_OLS5']] = lm(mitigation_measure_rate ~ moderate_frame_rate+TH100+CC100+dangerous_frame_rate+evidence_full+moderate_frame_rate:evidence_full+lag(mitigation_measure_rate, 1), data = reg_data_daily_SE)
+models_SE_mitigation[['SE_OLS1']] = lm(mitigation_measure_rate ~ dangerous_frame_rate+CD100+CC100+evidence_full+lag(mitigation_measure_rate, 1), data = reg_data_daily_SE)
+models_SE_mitigation[['SE_OLS2']] = lm(mitigation_measure_rate ~ moderate_frame_rate+CD100+CC100+evidence_full+lag(mitigation_measure_rate, 1), data = reg_data_daily_SE)
+models_SE_mitigation[['SE_OLS3']] = lm(mitigation_measure_rate ~ moderate_frame_rate+CD100+dangerous_frame_rate+CC100+evidence_full+lag(mitigation_measure_rate, 1), data = reg_data_daily_SE)
+models_SE_mitigation[['SE_OLS4']] = lm(mitigation_measure_rate ~ moderate_frame_rate+CD100+CC100+dangerous_frame_rate+evidence_full+dangerous_frame_rate:evidence_full+lag(mitigation_measure_rate, 1), data = reg_data_daily_SE)
+models_SE_mitigation[['SE_OLS5']] = lm(mitigation_measure_rate ~ moderate_frame_rate+CD100+CC100+dangerous_frame_rate+evidence_full+moderate_frame_rate:evidence_full+lag(mitigation_measure_rate, 1), data = reg_data_daily_SE)
 
 # Combine models for Mitigation Measures
 combined_models_mitigation <- c(models_QC_mitigation[1], models_SE_mitigation[1], models_QC_mitigation[2], models_SE_mitigation[2], models_QC_mitigation[3], models_SE_mitigation[3], models_QC_mitigation[4], models_SE_mitigation[4], models_QC_mitigation[5], models_SE_mitigation[5])
