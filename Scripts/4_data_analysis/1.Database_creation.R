@@ -293,7 +293,7 @@ db_aggregates <- merged_db %>%
     neutral_emotion_rate = mean(detect_associated_emotions == 0, na.rm = TRUE) * 100,
     negative_emotion_rate = mean(detect_associated_emotions == 1, na.rm = TRUE) * 100,
     positive_emotion_rate = mean(detect_associated_emotions == 2, na.rm = TRUE) * 100,
-    evidence_full = mean(detect_evidence == 1 | detect_source == 1, na.rm = TRUE) * 100,
+    evidence_full = mean(detect_evidence == 1, na.rm = TRUE) * 100,
     .groups = 'drop'
   )
 
@@ -366,7 +366,7 @@ text_aggregates_SWD <- db_SWD %>%
     neutral_emotion_rate = mean(detect_associated_emotions == 0, na.rm = TRUE) * 100,
     negative_emotion_rate = mean(detect_associated_emotions == 1, na.rm = TRUE) * 100,
     positive_emotion_rate = mean(detect_associated_emotions == 2, na.rm = TRUE) * 100,
-    evidence_full = mean(detect_evidence == 1| detect_source == 1, na.rm = TRUE) * 100,
+    evidence_full = mean(detect_evidence == 1, na.rm = TRUE) * 100,
   )
 
 # Merging epidemiological data with textual aggregates
